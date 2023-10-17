@@ -14,7 +14,7 @@ Incheon Electronic Meister High School MDP Project
 
 길수빈 : 하드웨어, 센서 개발 담당
 
-서지혜 : 소프트웨어, 인공지능, 카메라 개발 담당
+서지혜 : 소프트웨어, openCV, 카메라 개발 담당
 
 정민웅 : 하드웨어, 모터 개발 담당
 
