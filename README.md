@@ -18,6 +18,14 @@ Incheon Electronic Meister High School MDP Project
 
 정민웅 : 하드웨어, 모터 개발 담당
 
+# 자료 조사
+
+## 하드웨어(센서)
+
+## 하드웨어(모터)
+
+## 소프트웨어(openCV, 카메라)
+
 
 
 
