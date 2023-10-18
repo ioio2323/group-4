@@ -28,6 +28,7 @@ Incheon Electronic Meister High School MDP Project
 
 1. 라즈베리파이에 openCV, tensorflow 설치
 2. 사물 인식 기계학습 모델 설치
+   
    <https://seo-dh-elec.tistory.com/32>
 3. 파이 카메라 연결
 
@@ -36,6 +37,8 @@ Incheon Electronic Meister High School MDP Project
 `
 
 4. 오픈소스 코드 불러오기
+   
+   <https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi>
 
 
 
