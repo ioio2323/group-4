@@ -47,9 +47,7 @@ Incheon Electronic Meister High School MDP Project
     (tflite1-env)~/tflite1 $ python3 TFLite_detection_webcam.py --modeldir=TFLite_model
 `
 
-• 오픈소스 코드 사이트
-   
-   <https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi>
+
 
 
 
