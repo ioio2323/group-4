@@ -20,34 +20,9 @@ Incheon Electronic Meister High School MDP Project
 
 ## 📚자료 조사
 
-### 하드웨어(센서)
+### 하드웨어(센서)    
 
-
-SG90 서보모터 사용법
-
-
-갈색 GND
-
-
-빨간색 5V
-
-
-주황색 제어할 핀
-
-아두이노에서 #include<Servo.h> 라는 명령어를 넣어서 아두이노에 내장되어 있는 Servo 라이브러리르 불러오고
-Servo myservo;  를 써서 서보 모터를 제어할 객체 만들기.
-
-    `
-    void setup() {
-         myservo.attach(제어할 핀);
-    }
-    
-
-    void loop(){
-          myservo.write(제어할 각도);
-    }
-    `
-
+#### <아두이노>
 HC-SR04 초음파센서 사용법
 
 
@@ -71,6 +46,32 @@ HC-SR04 모듈을 동작하기 위해서는 Trig 핀에 10uS 길이의 펄스를
 
 ### 하드웨어(모터)
 
+#### <아두이노>
+SG90 서보모터 사용법
+
+
+갈색 GND
+
+
+빨간색 5V
+
+
+주황색 제어할 핀
+
+아두이노에서 #include<Servo.h> 라는 명령어를 넣어서 아두이노에 내장되어 있는 Servo 라이브러리르 불러오고
+Servo myservo;  를 써서 서보 모터를 제어할 객체 만들기.
+
+    
+    void setup() {
+         myservo.attach(제어할 핀);
+    }
+    
+
+    void loop(){
+          myservo.write(제어할 각도);
+    }
+    
+
 ### 소프트웨어(openCV, 카메라)
 
 • 라즈베리파이에 openCV, tensorflow 설치 코드
@@ -79,9 +80,7 @@ HC-SR04 모듈을 동작하기 위해서는 Trig 핀에 10uS 길이의 펄스를
     ~ $ git clone https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi.git
    
 
-
-   
-   ~ $ cd tflite1~/tflite1 $ sudo pip3 install virtualenv~/tflite1 $ python3 -m venv tflite1-env~/tflite1 $ source tflite1-env/bin/activate(tflite1-env)~/tflite1 $ bash get_pi_requirements.sh
+    ~ $ cd tflite1~/tflite1 $ sudo pip3 install virtualenv~/tflite1 $ python3 -m venv tflite1-env~/tflite1 $ source tflite1-env/bin/activate(tflite1-env)~/tflite1 $ bash get_pi_requirements.sh
    
    
 • 사물 인식 기계학습 모델 설치 사이트
@@ -90,9 +89,9 @@ HC-SR04 모듈을 동작하기 위해서는 Trig 핀에 10uS 길이의 펄스를
    
 • 파이 카메라 연결 코드
 
-`
-    (tflite1-env)~/tflite1 $ python3 TFLite_detection_webcam.py --modeldir=TFLite_model
-`
+
+
+
 
 
 
