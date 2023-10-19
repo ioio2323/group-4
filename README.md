@@ -37,7 +37,7 @@ Incheon Electronic Meister High School MDP Project
    ~ $ cd tflite1~/tflite1 $ sudo pip3 install virtualenv~/tflite1 $ python3 -m venv tflite1-env~/tflite1 $ source tflite1-env/bin/activate(tflite1-env)~/tflite1 $ bash get_pi_requirements.sh
    `
    
-• 사물 인식 기계학습 모델 설치
+• 사물 인식 기계학습 모델 설치 사이트
    
    <https://seo-dh-elec.tistory.com/32>
    
@@ -47,7 +47,7 @@ Incheon Electronic Meister High School MDP Project
     (tflite1-env)~/tflite1 $ python3 TFLite_detection_webcam.py --modeldir=TFLite_model
 `
 
-• 오픈소스 코드
+• 오픈소스 코드 사이트
    
    <https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi>
 
