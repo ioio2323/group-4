@@ -26,7 +26,7 @@ Incheon Electronic Meister High School MDP Project
 
 ### 소프트웨어(openCV, 카메라)
 
-1. 라즈베리파이에 openCV, tensorflow 설치
+• 라즈베리파이에 openCV, tensorflow 설치 코드
 
     `
     ~ $ git clone https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi.git
@@ -37,16 +37,17 @@ Incheon Electronic Meister High School MDP Project
    ~ $ cd tflite1~/tflite1 $ sudo pip3 install virtualenv~/tflite1 $ python3 -m venv tflite1-env~/tflite1 $ source tflite1-env/bin/activate(tflite1-env)~/tflite1 $ bash get_pi_requirements.sh
    `
    
-3. 사물 인식 기계학습 모델 설치
+• 사물 인식 기계학습 모델 설치
    
    <https://seo-dh-elec.tistory.com/32>
-4. 파이 카메라 연결
+   
+• 파이 카메라 연결 코드
 
 `
     (tflite1-env)~/tflite1 $ python3 TFLite_detection_webcam.py --modeldir=TFLite_model
 `
 
-4. 오픈소스 코드 불러오기
+• 오픈소스 코드
    
    <https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi>
 
