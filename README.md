@@ -43,6 +43,28 @@ HC-SR04 모듈을 동작하기 위해서는 Trig 핀에 10uS 길이의 펄스를
 
 -GND는 GND에 연결
 
+### <stm32 >
+
+#### 배선
+
+1.VCC는 5V에 연결
+
+
+2.Trig에는 펄스를 인가하기 위해 PA5에 GPIO Output으로 설정	
+
+
+3.Echo로 출력된 펄스를 입력받기 위해 타이머3의 채널1 input capture를 사용하기위해PA6으로 설정
+
+
+4.GND는 GND에 연결
+
+#### Cube MX
+
+1.TIM3은 APB1 클락소스(90MHz)를 공급받는다. 그리고 Prescaler 값을 90-1 로 해주면 1us(마이크로초) 마다 CNT가 오른다. 그리고 TIM3은 16비트 카운터라서 ARR은 최대값인 0xffff-1로 해준다. UART3 설정도 켠다
+
+
+2.소스코드 
+  
 
 ### 하드웨어(모터)
 
