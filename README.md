@@ -95,18 +95,81 @@ Servo myservo;  를 써서 서보 모터를 제어할 객체 만들기.
 
 • 라즈베리파이에 openCV, tensorflow 설치 코드
 
-    
-    ~ $ git clone https://github.com/EdjeElectronics/TensorFlow-Lite-Object-Detection-on-Android-and-Raspberry-Pi.git
-   
+• 라즈베리파이와 누클레오 보드 시리얼 통신 연결
 
-    ~ $ cd tflite1~/tflite1 $ sudo pip3 install virtualenv~/tflite1 $ python3 -m venv tflite1-env~/tflite1 $ source tflite1-env/bin/activate(tflite1-env)~/tflite1 $ bash get_pi_requirements.sh
-   
-   
-• 사물 인식 기계학습 모델 설치 사이트
-   
-   <https://seo-dh-elec.tistory.com/32>
-   
-• 파이 카메라 연결 코드
+## 코드
+
+    import cv2
+    import tensorflow as tf
+    import RPi.GPIO as GPIO
+    import numpy as np
+    import serial
+    
+    ser = serial.Serial('/dev/serial0', 115200)
+    ser.close()
+    ser.open()
+    
+    model_path = '/home/pi/MDP2-4/keras_model.h5'
+    model = tf.keras.models.load_model(model_path, compile=False)
+    
+    cap = cv2.VideoCapture(0)
+    
+    # 원하는 해상도 설정
+    desired_width = 640  # 원하는 가로 해상도
+    desired_height = 480  # 원하는 세로 해상도
+    
+    # 카메라 속성 설정
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, desired_width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, desired_height)
+    
+    frame_count = 0
+    frame_interval = 10  # 5프레임 간격으로 처리
+    
+    while True:
+        ret, frame = cap.read()
+        frame_count += 1
+    
+        if frame_count % frame_interval == 0:
+            if ret:
+                # 이미지 크기 조정
+                resized_frame = cv2.resize(frame, (224, 224))
+    
+                # 모델 추론을 위한 전처리
+                input_data = np.expand_dims(resized_frame, axis=0)
+    
+                # 모델 추론 수행
+                prediction = model.predict(input_data)[0]
+                print(prediction)
+    
+                flipped_frame = cv2.flip(frame, 0)  # 원본 프레임 뒤집기
+    
+                if prediction[0] > 0.7:
+                    cv2.putText(flipped_frame, 'True', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    data_to_send = "a"
+                    ser.write(data_to_send.encode())
+                    print("True")
+    
+                if prediction[1] > 0.7:
+                    cv2.putText(flipped_frame, 'False', (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+                    data_to_send = "b"
+                    ser.write(data_to_send.encode())
+                    print("False")
+    
+                # 변환된 프레임을 화면에 표시
+                cv2.imshow('Teachable Machine Model', flipped_frame)
+    
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    
+    cap.release()
+    cv2.destroyAllWindows()
+
+
+    
+
+
+
+
 
 
 
