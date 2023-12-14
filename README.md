@@ -97,7 +97,7 @@ Servo myservo;  를 써서 서보 모터를 제어할 객체 만들기.
 
 • 라즈베리파이와 누클레오 보드 시리얼 통신 연결
 
-## 코드
+#### 라즈베리파이 코드
 
     import cv2
     import tensorflow as tf
@@ -164,8 +164,53 @@ Servo myservo;  를 써서 서보 모터를 제어할 객체 만들기.
     cap.release()
     cv2.destroyAllWindows()
 
+#### STM32 코드
 
+    /* USER CODE BEGIN 0 */
+    char rx_data[1] = "b";
+    void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+    {
+    	if(huart == &huart1){
+    		if(!strncmp("a", rx_data, 1)){
+    			htim4.Instance->CCR1 = 2500;
+    		}
+    	}
+    	HAL_UART_Receive_IT(&huart1, (uint8_t *)rx_data, 2);
+    }
+    /* USER CODE END 0 */
+
+      /* USER CODE BEGIN 2 */
+      HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
+      HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
+      HAL_UART_Receive_IT(&huart1, (uint8_t *)rx_data, 2);
+      char out1[20];
+      char out2[20];
+      /* USER CODE END 2 */
+
+      /* USER CODE BEGIN WHILE */
+      while (1)
+      {
+         HCSR04_Read();
+         sprintf(out1, "mottor on: %d\r\n", Distance);
+         sprintf(out2, "mottor off: %d\r\n", Distance);
+         if(!strncmp("b", rx_data, 1)){
+    			 if (Distance <= 6){
+    				 HAL_UART_Transmit(&huart2, (uint8_t *)out1, strlen(out1), 10);
+    				 htim4.Instance->CCR1 = 1500;
+    				 htim4.Instance->CCR2 = 1500;
+    				 HAL_Delay(1000);
     
+    			 }
+    			 else{
+    				 HAL_UART_Transmit(&huart2, (uint8_t *)out2, strlen(out2), 10);
+    				 htim4.Instance->CCR1 = 2500;
+    				 htim4.Instance->CCR2 = 500;
+    				 HAL_Delay(1000);
+    			 }
+         }
+        /* USER CODE END WHILE */
+
+
 
 
 
