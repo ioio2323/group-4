@@ -166,51 +166,79 @@ Servo myservo;  를 써서 서보 모터를 제어할 객체 만들기.
 
 #### STM32 코드
 
+##### 센서값과 라즈베리파이 신호를 받아서 모터를 돌리는 코드
+
     /* USER CODE BEGIN 0 */
     char rx_data[1] = "b";
     void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     {
-    	if(huart == &huart1){
-    		if(!strncmp("a", rx_data, 1)){
-    			htim4.Instance->CCR1 = 2500;
-    		}
-    	}
-    	HAL_UART_Receive_IT(&huart1, (uint8_t *)rx_data, 2);
+      if(huart == &huart1){
+        if(!strncmp("a", rx_data, 1)){
+           HAL_UART_Transmit(&huart3, (uint8_t *)"0\n", sizeof("0\n")-1, 10);
+            htim4.Instance->CCR1 = 1500;
+          }
+       }
+       HAL_UART_Receive_IT(&huart1, (uint8_t *)rx_data, 2);
     }
     /* USER CODE END 0 */
-
+    
       /* USER CODE BEGIN 2 */
       HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
       HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
-      HAL_UART_Receive_IT(&huart1, (uint8_t *)rx_data, 2);
+      HAL_UART_Receive_IT(&huart1, (uint8_t*)rx_data, 2);
+    
       char out1[20];
       char out2[20];
       /* USER CODE END 2 */
-
+    
       /* USER CODE BEGIN WHILE */
       while (1)
       {
-         HCSR04_Read();
-         sprintf(out1, "mottor on: %d\r\n", Distance);
-         sprintf(out2, "mottor off: %d\r\n", Distance);
-         if(!strncmp("b", rx_data, 1)){
-    			 if (Distance <= 6){
-    				 HAL_UART_Transmit(&huart2, (uint8_t *)out1, strlen(out1), 10);
-    				 htim4.Instance->CCR1 = 1500;
-    				 htim4.Instance->CCR2 = 1500;
-    				 HAL_Delay(1000);
-    
-    			 }
-    			 else{
-    				 HAL_UART_Transmit(&huart2, (uint8_t *)out2, strlen(out2), 10);
-    				 htim4.Instance->CCR1 = 2500;
-    				 htim4.Instance->CCR2 = 500;
-    				 HAL_Delay(1000);
-    			 }
+          HCSR04_Read();
+          if(!strncmp("b", rx_data, 1)){
+               if (Distance <= 6){
+                  HAL_UART_Transmit(&huart1, (uint8_t *)out1, strlen(out1), 10);
+                  HAL_UART_Transmit(&huart3, (uint8_t *)"1\n", sizeof("1\n")-1, 10);
+                  htim4.Instance->CCR1 = 2500;
+               }
+               else{
+                  HAL_UART_Transmit(&huart1, (uint8_t *)out2, strlen(out2), 10);
+                  HAL_UART_Transmit(&huart3, (uint8_t *)"0\n", sizeof("0\n")-1, 10);
+                  htim4.Instance->CCR1 = 1500;
+               }
          }
+                  HAL_Delay(1000);
         /* USER CODE END WHILE */
 
 
+##### 보드 통신으로 신호를 받아서 모터를 돌리는 코드
+
+    /* USER CODE BEGIN 0 */
+    char rx_data[2];
+    /* USER CODE END 0 */
+    
+      /* USER CODE BEGIN 2 */
+      HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
+      HAL_TIM_IC_Start_IT(&htim4, TIM_CHANNEL_1);
+    
+      //HAL_UART_Receive_IT(&huart3, (uint8_t *)rx_data, 1);
+      HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+      /* USER CODE END 2 */
+    
+      /* USER CODE BEGIN WHILE */
+      while (1)
+      {
+         HAL_UART_Receive(&huart3, (uint8_t *)rx_data, sizeof(rx_data)-1, 10);
+         if(!strncmp("1", rx_data, 1)) {
+            HAL_UART_Transmit(&huart2, (uint8_t *)"1\n", sizeof("1\n"), 10);
+            htim4.Instance->CCR1 = 500;
+         } else if(!strncmp("0", rx_data, 1)) {
+            HAL_UART_Transmit(&huart2, (uint8_t *)"0\n", sizeof("0\n"), 10);
+            htim4.Instance->CCR1 = 1500;
+         }
+         HAL_Delay(1000);
+    
+        /* USER CODE END WHILE */
 
 
 
